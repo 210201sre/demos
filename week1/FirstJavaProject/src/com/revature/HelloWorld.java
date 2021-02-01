@@ -2,6 +2,9 @@ package com.revature;
 // The first line of a Java program is the package declaration
 // You can have 1 package declaration per file
 
+import com.revature.models.Employee;
+import com.revature.models.Zoo;
+import com.revature.utility.Math;
 
 public class HelloWorld {
 
@@ -109,5 +112,19 @@ public class HelloWorld {
 		// Of the lesser known mathematical operators, is the MODULO or MODULUS operator, %
 		
 		System.out.println(7 % 3); // Modulo prints out the remainder left after integer division
+		
+		int z = Math.add(5, 7);
+		
+		System.out.println(z);
+		
+		Zoo zoo = new Zoo();
+		
+		zoo.addEmployee(new Employee());
+		
+		System.out.println(zoo.getWorkers());
+		
+		for(Employee emp : zoo.getWorkers()) {
+			System.out.println(emp);
+		}
 	}
 }

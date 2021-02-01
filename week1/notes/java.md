@@ -5,6 +5,7 @@ Java is an Object Oriented Programming language. It was picked up by Oracle, tha
 ## Features/Characteristics
 
 - Object Oriented
+- Strongly and Statically Typed
 - Leverages Java ByteCode (.class files) to accomplish distribution of Java programs
     - Makes it easier to share/collaborate
 - Garbage Collector handles Memory Management for the developer
