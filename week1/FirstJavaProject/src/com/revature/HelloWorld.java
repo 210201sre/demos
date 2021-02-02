@@ -126,5 +126,9 @@ public class HelloWorld {
 		for(Employee emp : zoo.getWorkers()) {
 			System.out.println(emp);
 		}
+		
+		
+		System.out.println(new Integer(5) == new Integer(5));
+		System.out.println(Integer.valueOf(5) == Integer.valueOf(5));
 	}
 }

@@ -2,7 +2,7 @@ package com.revature.models;
 
 import java.util.Objects;
 
-public class Employee {
+public class Employee extends Person {
 
 	private String name;
 	private int age;
@@ -63,5 +63,10 @@ public class Employee {
 	@Override
 	public String toString() {
 		return "Employee [name=" + name + ", age=" + age + ", dept=" + dept + "]";
+	}
+	
+	@Override
+	public void speak() {
+		System.out.println("Hello, my name is " + name);
 	}
 }

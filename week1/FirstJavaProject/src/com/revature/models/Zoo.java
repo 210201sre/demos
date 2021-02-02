@@ -21,6 +21,8 @@ public class Zoo {
 	
 	// access-modifier class-name(parameters, if any)
 	public Zoo() {
+		// A Constructor call, such as super() or this() must be the first statement in a Constructor
+		// If not provided, the Compiler will add in a call to super() for you
 		super();
 		// Declare an array of size zero
 		// Note: Arrays are fixed-length
@@ -34,23 +36,17 @@ public class Zoo {
 	}
 	
 	public Zoo(Employee[] workers, List<Animal> animals, double area, String name, String address, boolean open) {
-		super();
+		this(area, name, address, open);
 		this.workers = workers;
 		this.animals = animals;
-		this.area = area;
-		this.name = name;
-		this.address = address;
-		this.open = open;
 	}
 
 	public Zoo(double area, String name, String address, boolean open) {
-		super();
+		this();
 		this.area = area;
 		this.name = name;
 		this.address = address;
 		this.open = open;
-		this.workers = new Employee[0];
-		this.animals = new ArrayList<>();
 	}
 
 	public void addEmployee(Employee e) {
@@ -126,15 +122,38 @@ public class Zoo {
 		this.open = open;
 	}
 
+	// This is called an "annotation"
+	// All that annotations do, is provide metadata about something
+	// Annotations can be provided to local variables, parameters, fields, classes, methods, etc
+	
+	// In this case, the @Override, is a compiler flag/check that enforces that this method
+	// is indeed overriding a method from a parent class
 	@Override
 	public int hashCode() {
 		final int prime = 31;
+		// Example of integer overflowing
+		// 01111111111111111111111111111111 + 1 -> 10000000000000000000000000000000
+		
+		// Hashcodes are a "approximately" unique identifier for objects
+		// They are not quite unique due to integer overflowing
 		int result = 1;
 		result = prime * result + Arrays.hashCode(workers);
 		result = prime * result + Objects.hash(address, animals, area, name, open);
 		return result;
 	}
 
+	/*
+	 * This .equals method is not the same as the "==" operator
+	 * 
+	 * The == operator compares 2 values, but it primarily works for primitives.
+	 * If used with reference variables/objects, it doesn't compare the actual data.
+	 * The == operator would instead compare the memory location
+	 * 
+	 * If our intention is to compare the data within 2 objects, to check if they match,
+	 * you must use the .equals method.
+	 * 
+	 * Additionally, this will only work properly if you override the equals method.
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
