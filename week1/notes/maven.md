@@ -11,3 +11,17 @@ You have a local maven repository, that is located in your user profile home fol
 There are also cloud/remote repositories that Maven can download the dependencies from. The default remote repository is `mvnrepository.com`.
 
 Maven organizes/represents projects as a Project Object Model.
+
+## Maven Lifecycle
+
+Maven has 3 build lifecycles: default, clean, site. The clean lifecycle has to do with deleting any old compiled artifacts (such as the content of the `target/` or `bin/` directories). The site lifecycle has to do with generating your site documentation for the project.
+
+The most important is the default lifecycle.
+
+- Validate
+- Compile
+- Test
+- Package
+- Verify
+- Install
+- Deploy

@@ -33,11 +33,15 @@ public class CalculatorTest {
 
 	@After
 	public void tearDown() throws Exception {
+		System.out.println("After");
+		
 		calculator = null;
 	}
 
 	@Test
 	public void testCommutativeProperty() {
+		System.out.println("Test 1");
+		
 		Random r = new Random();
 		
 		int x = r.nextInt(Integer.MAX_VALUE / 2);
@@ -48,6 +52,8 @@ public class CalculatorTest {
 	
 	@Test
 	public void testInverseProperty() {
+		System.out.println("Test 2");
+		
 		Random r = new Random();
 		
 		int x = r.nextInt(Integer.MAX_VALUE);
@@ -57,7 +63,7 @@ public class CalculatorTest {
 
 	@Test
 	public void testAddAgain() {
-		System.out.println("Test 2");
+		System.out.println("Test 3");
 		
 		assertThrows(IllegalArgumentException.class,
 				() -> calculator.add(Integer.MAX_VALUE, 1)
@@ -66,6 +72,8 @@ public class CalculatorTest {
 	
 	@Test
 	public void testMultiplyInverseProperty() {
+		System.out.println("Test 4");
+		
 		Random r = new Random();
 		
 		double x = r.nextDouble() * Integer.MAX_VALUE;
