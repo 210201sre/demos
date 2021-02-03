@@ -17,4 +17,7 @@ public interface Runner {
 	public default void run2() {
 		System.out.println("The run2 method was invoked");
 	}
+	
+	// All fields in interfaces are public static and final
+	public static final int myVariable = 5;
 }
