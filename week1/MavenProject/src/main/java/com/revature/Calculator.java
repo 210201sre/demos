@@ -25,4 +25,16 @@ public class Calculator {
 	public double multiply(double x, double y) {
 		return x * y;
 	}
+	
+	// Example method that is very difficult to test
+	public void myMethod() {
+		System.out.println("Print something");
+		
+		// Let's pretend this is supposed to verify that a user is authenticated
+		
+		// This could be one of your expected behaviors
+		if(/* Not authenticated */ true) {
+			throw new RuntimeException("Not authenticated");
+		}
+	}
 }

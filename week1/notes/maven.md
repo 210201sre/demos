@@ -10,7 +10,7 @@ You have a local maven repository, that is located in your user profile home fol
 
 There are also cloud/remote repositories that Maven can download the dependencies from. The default remote repository is `mvnrepository.com`.
 
-Maven organizes/represents projects as a Project Object Model.
+Maven organizes/represents projects as a Project Object Model. This is configured through an xml configuration file called `pom.xml`. That has all the key-value pairs that constitute the configuration for the project.
 
 ## Maven Lifecycle
 
@@ -19,9 +19,26 @@ Maven has 3 build lifecycles: default, clean, site. The clean lifecycle has to d
 The most important is the default lifecycle.
 
 - Validate
+    - Validate the project is correct and all necessary information is available
+    - Validate the contents of `pom.xml` and verify that the configuration is correct and all dependencies are available
 - Compile
+    - Compile the source code of the project
 - Test
+    - Test the compiled source code using a suitable unit testing framework
+    - These tests should not require the code be packaged or deployed
+    - In particular, we are using JUnit
+    - Unit tests should be completely independent, and only test a single unit
 - Package
+    - Take the compiled code and package it in its distributable format, such as a JAR or WAR
+    - JAR = Java Archive
+    - WAR = Web Archive
 - Verify
+    - Run any checks on results of Integration Tests to ensure quality criteria are met
+    - Integration Tests are bigger than Unit Tests and integrate multiple components together
 - Install
+    -  Install the package into the local repository, for use as a dependency in other projects locally
+    - Put in the `~/.m2/repository`
+    - `~` refers to your user profile home folder
 - Deploy
+    - Done in the build environment, copies the final package to the remote repository for sharing with other developers and projects
+    - Such as to `mvnrepository.com`
