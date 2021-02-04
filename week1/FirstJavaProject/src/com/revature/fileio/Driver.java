@@ -3,6 +3,7 @@ package com.revature.fileio;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -33,9 +34,19 @@ public class Driver {
 			d.fisExample();
 			d.fileReaderWriterExample();
 			d.bufferedReaderWriterExample();
+			
+			d.br.close();
+			
+			throw new ClassNotFoundException("Something went wrong!");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
+		} finally {
+			
 		}
+		
+		System.out.println("The program reached this point!");
 	}
 
 	private void fosExample() throws IOException {

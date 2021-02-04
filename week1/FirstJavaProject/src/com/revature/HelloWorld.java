@@ -127,6 +127,8 @@ public class HelloWorld {
 			System.out.println(emp);
 		}
 		
+		zoo.setArea(-33);
+		
 		
 		System.out.println(new Integer(5) == new Integer(5));
 		System.out.println(Integer.valueOf(5) == Integer.valueOf(5));
