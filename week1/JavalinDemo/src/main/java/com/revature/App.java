@@ -3,6 +3,7 @@ package com.revature;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.revature.controllers.AccountController;
 import com.revature.controllers.Controller;
 import com.revature.controllers.UserController;
 import com.revature.models.User;
@@ -20,7 +21,9 @@ public class App {
 		
 		app = Javalin.create();
 		
-		configure(new UserController());
+		configure(new UserController(), new AccountController());
+		
+		app.start();
 	}
 	
 	public static void basicSetup() {

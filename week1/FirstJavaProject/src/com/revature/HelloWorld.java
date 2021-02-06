@@ -3,6 +3,7 @@ package com.revature;
 // You can have 1 package declaration per file
 
 import com.revature.models.Employee;
+import com.revature.models.Person;
 import com.revature.models.Zoo;
 import com.revature.utility.Math;
 
@@ -127,10 +128,27 @@ public class HelloWorld {
 			System.out.println(emp);
 		}
 		
-		zoo.setArea(-33);
+//		zoo.setArea(-33);
 		
 		
 		System.out.println(new Integer(5) == new Integer(5));
 		System.out.println(Integer.valueOf(5) == Integer.valueOf(5));
+		
+		Person p = new Employee();
+		
+		Object o = p; // Up-Casting
+		// Moving our reference variable UP the inheritance tree
+		
+		Employee e = (Employee) o; // Down-Casting
+		// Moving our reference variable DOWN the inheritance tree
+		// Potentially dangerous
+		
+//		Zoo z2 = (Zoo) o;
+		
+		// The instanceof operator will return true if the object IS-A instance of the Class
+		// Then the down-cast would be safe
+		if(o instanceof Zoo) {
+			Zoo z2 = (Zoo) o;
+		}
 	}
 }
