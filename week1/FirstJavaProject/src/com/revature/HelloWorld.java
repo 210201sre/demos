@@ -49,7 +49,7 @@ public class HelloWorld {
 		}
 		
 		String value = "TEST";
-		
+		// Strings, bytes, shorts, ints, chars, Enums
 		switch(value) {
 		case "TEST":
 			// The break keyword will end the current loop or switch statement
