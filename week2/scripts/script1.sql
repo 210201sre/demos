@@ -70,6 +70,99 @@ SELECT * FROM users;
 -- Can use the AS keyword as an alias
 SELECT first_name || ' ' || last_name AS full_name FROM users;
 
+INSERT INTO public.accounts (owner_id) VALUES (1);
 
+INSERT INTO public.users (first_name, last_name) VALUES ('Jared', 'Malkin');
 
+INSERT INTO public.accounts (owner_id, balance) VALUES (2, 3);
 
+INSERT INTO public.users (first_name, last_name) VALUES ('Fatima', 'Melgar');
+
+SELECT * FROM public.users INNER JOIN public.accounts
+	ON public.users.id = public.accounts.owner_id;
+
+SELECT first_name || ' ' || last_name AS full_name, balance FROM public.users INNER JOIN public.accounts
+	ON public.users.id = public.accounts.owner_id;
+
+SELECT public.accounts.id AS account_id, public.users.id AS user_id, balance FROM public.users INNER JOIN public.accounts
+	ON public.users.id = public.accounts.owner_id;
+
+-- You can nest SELECT statements by creating sub-queries
+-- This has a lot of useful use-cases
+-- However, you must be careful about ambiguity
+SELECT sub1.user_id AS user_id, sub1.balance FROM
+	(SELECT public.accounts.id AS account_id, public.users.id AS user_id, balance FROM public.users INNER JOIN public.accounts
+		ON public.users.id = public.accounts.owner_id) AS sub1;
+
+SELECT * FROM (
+	SELECT public.accounts.id AS account_id, public.users.id AS user_id, balance FROM public.users INNER JOIN public.accounts
+			ON public.users.id = public.accounts.owner_id) AS sub1
+	WHERE sub1.balance > 0;
+
+-- WHERE
+-- ORDER BY
+-- GROUP BY
+-- HAVING
+-- LIMIT
+-- HAVING and WHERE are almost the exact same clause
+-- The difference is that WHERE applies the filter BEFORE data is grouped
+-- And HAVING applies the filter AFTER the data is grouped
+
+DROP TABLE IF EXISTS one CASCADE;
+DROP TABLE IF EXISTS two CASCADE;
+
+CREATE TABLE one (
+	one INTEGER PRIMARY KEY,
+	two INTEGER
+);
+
+CREATE TABLE two (
+	one INTEGER PRIMARY KEY,
+	two INTEGER
+);
+
+INSERT INTO one VALUES (1, 1), (2, 2);
+INSERT INTO two VALUES (1, 1), (2, 1);
+
+-- All SET operations only operate on results that have
+-- the same number and type of columns
+
+-- The UNION operator will combine all results together
+-- However, it will not include duplicates
+SELECT * FROM public.one UNION SELECT * FROM public.two;
+
+-- UNION ALL does include duplicates
+SELECT * FROM public.one UNION ALL SELECT * FROM public.two;
+
+-- INTERSECT will only include matching results
+SELECT * FROM public.one INTERSECT SELECT * FROM public.two;
+
+-- EXCEPT will keep results from the left view, and remove any matching
+-- results that came from the right
+SELECT * FROM public.one EXCEPT SELECT * FROM public.two;
+
+-- SQL supports scalar and aggregate functions that can be used
+-- along with SELECT statements
+
+-- Scalar functions are functions that operate on only a single input
+-- and produce 1 output for each input
+-- e.g UPPER, LOWER, TRIM, SIN, COS, TAN
+
+-- Aggregate functions are functions that operate on an entire column as input
+-- and produce 1 output for all inputs
+-- e.g SUM, AVG, etc
+
+SELECT SIN(one) FROM one;
+
+SELECT SUM(one) FROM two;
+
+SELECT AVG(LENGTH(first_name)) FROM users;
+
+SELECT AVG(LENGTH(last_name)) FROM users;
+
+INSERT INTO public.users (first_name, last_name, age) VALUES ('Rubeus', 'Hagrid', 33);
+
+SELECT age, AVG(LENGTH(first_name)) AS first_name_length_avg FROM users GROUP BY age;
+
+-- The below query does not work, since we must either group by id OR use id in an aggregate function
+SELECT id, age, AVG(LENGTH(last_name)) AS last_name_length_avg FROM users GROUP BY age;
