@@ -202,3 +202,36 @@ Serializable    |                  |                     |                  |
 - Serializable prevents *any* concurrency whatsoever
     - A *very* significant performance loss, since there is no longer any concurrency
     - Nothing can go wrong, because there is no concurrency
+
+## Database Joins
+
+- Operations that allow us to bring together data from multiple tables
+- Particularly useful in describing many to many relationships
+- There are several types
+    - Inner Join
+        - Only show records with the compared value existing in both tables
+    - Full Outer Join
+        - Fully join all tables together, substituting null values where data is absent
+    - Left/Right Join
+        - All data from Left/Right table paired with the other and substituting null values where appropriate
+    - Cross Join
+        - Cartesian Cross Product on records from both tables, so you get a list of combinations from the tables
+        - This can generate a LOT of data
+    - Self Join
+        - Not truly its own category
+        - Any join that operates on only 1 table
+
+We will obtain a single result with columns from both tables, and records will be joined overlapping on one value from a single column (the FK column).
+
+Most particularly, this overlapping column will map to the other table's primary key.
+Some SQL Dialects enforce that Joins can only be performed through foreign keys to primary keys, but not all dialects do.
+
+```SQL
+SELECT <columns> FROM <left> <JOIN TYPE> JOIN <right>
+    ON <left.column> = <right.column>;
+
+SELECT * FROM users INNER JOIN accounts
+    ON users.id = accounts.ownerId;
+```
+
+In the above example, `ownerId` was a FK that references the PK of the users table.
