@@ -1,6 +1,7 @@
 package com.revature.models;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 // Should have a field for every column in the table of the DB
@@ -15,17 +16,19 @@ public class User implements Serializable {
 	private String username;
 	private String password;
 	private Role role;
+	private List<Account> accounts;
 	
 	public User() {
 		super();
 	}
 
-	public User(int id, String username, String password, Role role) {
+	public User(int id, String username, String password, Role role, List<Account> accounts) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.password = password;
 		this.role = role;
+		this.accounts = accounts;
 	}
 
 	public int getId() {
@@ -60,9 +63,25 @@ public class User implements Serializable {
 		this.role = role;
 	}
 
+	public List<Account> getAccounts() {
+		return accounts;
+	}
+
+	public void setAccounts(List<Account> accounts) {
+		this.accounts = accounts;
+	}
+	
+	public void addAccount(Account account) {
+		this.accounts.add(account);
+	}
+	
+	public boolean removeAccount(Account account) {
+		return this.accounts.remove(account);
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, password, role, username);
+		return Objects.hash(accounts, id, password, role, username);
 	}
 
 	@Override
@@ -74,12 +93,13 @@ public class User implements Serializable {
 			return false;
 		}
 		User other = (User) obj;
-		return id == other.id && Objects.equals(password, other.password) && role == other.role
-				&& Objects.equals(username, other.username);
+		return Objects.equals(accounts, other.accounts) && id == other.id && Objects.equals(password, other.password)
+				&& role == other.role && Objects.equals(username, other.username);
 	}
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + ", role=" + role + "]";
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", role=" + role + ", accounts="
+				+ accounts + "]";
 	}
 }

@@ -5,12 +5,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.revature.models.Account;
 import com.revature.models.Role;
 import com.revature.models.User;
 import com.revature.util.ConnectionUtil;
@@ -47,7 +50,10 @@ public class UserDAO implements IUserDAO {
 			
 			Statement stmt = conn.createStatement();
 			
-			String sql = "SELECT * FROM project0.users";
+			String sql = "SELECT project0.users.id, project0.users.username, project0.users.password, project0.users.role,"
+					+ " project0.accounts.id AS account_id, project0.accounts.balance FROM project0.users "
+					+ "LEFT JOIN project0.users_accounts_jt ON project0.users.id = project0.users_accounts_jt.owner "
+					+ "LEFT JOIN project0.accounts ON project0.accounts.id = project0.users_accounts_jt.account";
 			// String to represent the SQL Query
 			
 			ResultSet rs = stmt.executeQuery(sql); // Send the Statement to the DB
@@ -65,9 +71,39 @@ public class UserDAO implements IUserDAO {
 				// And then we take the String and interpet into the Java's Enum instance
 				Role role = Role.valueOf(rs.getString("role"));
 				
-				User u = new User(id, username, password, role);
+				int accountId = rs.getInt("account_id");
+				double balance = rs.getDouble("balance");
 				
-				allUsers.add(u);
+				if(accountId == 0) {
+					// This User data does not have any accounts associated with it
+					
+					allUsers.add(new User(id, username, password, role, new ArrayList<>()));
+					// Create a new User object with no accounts
+					
+				} else {
+					Account a = new Account(accountId, balance);
+					
+					List<User> potentialOwners = allUsers.stream()
+						.filter( (u) -> u.getId() == id)
+						.collect(Collectors.toList());
+					
+					if(potentialOwners.isEmpty()) {
+						// We have yet to create a User object for this account's owner
+						List<Account> ownedAccounts = new ArrayList<>();
+						ownedAccounts.add(a);
+						// Add in a List that consists of only 1 Account object
+						
+						User u = new User(id, username, password, role, ownedAccounts);
+						
+						allUsers.add(u);
+					} else {
+						// the owner of this account object already exists
+						
+						User u = potentialOwners.get(0);
+						u.addAccount(a);
+					}
+				}
+
 			}
 			
 		} catch(SQLException e) {
@@ -105,7 +141,7 @@ public class UserDAO implements IUserDAO {
 			stmt.setString(2, u.getPassword());
 			
 			// To accommodate the differences between Java and SQL's Enums, we will use setObject
-			stmt.setObject(3, u.getRole());
+			stmt.setObject(3, u.getRole(), Types.OTHER);
 			
 			ResultSet rs;
 			

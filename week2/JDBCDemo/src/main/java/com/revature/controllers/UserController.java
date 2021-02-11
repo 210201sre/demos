@@ -35,6 +35,11 @@ public class UserController implements Controller {
 		
 		// Save the new User in the DB
 		
+		u = userService.register(u);
+		
+		ctx.json(u); // Send back the registered User with the updated ID
+		ctx.status(201); // 201 Created
+		
 		MDC.clear();
 	};
 	

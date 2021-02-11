@@ -12,9 +12,15 @@ CREATE TABLE project0.users (
 DROP TABLE IF EXISTS project0.accounts CASCADE;
 CREATE TABLE project0.accounts (
 	id SERIAL PRIMARY KEY,
-	balance NUMERIC (50, 2) NOT NULL CHECK (balance >= 0) DEFAULT 0,
-	owner INTEGER NOT NULL REFERENCES project0.users (id)
+	balance NUMERIC (50, 2) NOT NULL CHECK (balance >= 0) DEFAULT 0
+--	owner INTEGER NOT NULL REFERENCES project0.users (id)
 --	active BOOLEAN DEFAULT false
+);
+
+DROP TABLE IF EXISTS project0.users_accounts_jt;
+CREATE TABLE project0.users_accounts_jt (
+	owner INTEGER NOT NULL REFERENCES project0.users (id),
+	account INTEGER NOT NULL REFERENCES project0.accounts (id)
 );
 
 DROP TABLE IF EXISTS project0.applications CASCADE;
@@ -23,4 +29,4 @@ CREATE TABLE project0.applications (
 	owner INTEGER NOT NULL REFERENCES project0.users (id)
 );
 
-INSERT INTO users (username, password, role) VALUES ('moberlies', 'password', 'Admin');
+INSERT INTO project0.users (username, password, role) VALUES ('moberlies', 'password', 'Admin');

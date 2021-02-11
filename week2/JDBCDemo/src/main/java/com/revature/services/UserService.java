@@ -42,6 +42,8 @@ public class UserService {
 			// Fairly confident that the INSERT was successful
 			
 			u.setId(generatedId);
+		} else {
+			throw new RegisterUserFailedException("Failed to insert the User record");
 		}
 		
 		
