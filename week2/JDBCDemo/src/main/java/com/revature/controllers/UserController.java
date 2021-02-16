@@ -1,5 +1,7 @@
 package com.revature.controllers;
 
+import org.eclipse.jetty.client.HttpRequest;
+import org.omg.CORBA.Environment;
 import org.slf4j.MDC;
 
 import com.revature.models.User;
@@ -9,6 +11,9 @@ import io.javalin.Javalin;
 import io.javalin.http.Handler;
 
 public class UserController implements Controller {
+	
+//	@Autowired
+	private Environment env;
 	
 	private UserService userService = new UserService();
 
