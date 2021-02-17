@@ -11,7 +11,12 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.revature.models.User;
 
+// We have an interface that is extending another interface
+// It works in the same way as classes extending other classes
+// except that we can still perform multiple-inheritance with interfaces
 public interface UserDAO extends JpaRepository<User, Integer> {
+	// Our interface will inherit all of the methods in the JpaRepository
+	// That interface contains many abstract methods for interacting with a database through JPA
 
 	public Optional<User> findByUsername(String username);
 	

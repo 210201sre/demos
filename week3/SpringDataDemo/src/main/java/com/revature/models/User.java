@@ -56,7 +56,7 @@ public class User {
 	// @JsonManagedReference along with @JsonBackReference will inform Jackson-Databind about bi-directional relationships
 	// So that we can properly create JSON for these objects without falling into an infinite loop
 //	@JsonManagedReference("label1")
-	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH }, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH }, fetch = FetchType.EAGER)
 	// Lazy Fetching will return a proxy object in place of the actual data
 	// When the data is actually needed, Hibernate/JPA will then actually go and fetch the data from the DB
 	// This is useful in some scenarios because, we may not actually need the data across this relationship
