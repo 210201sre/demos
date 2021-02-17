@@ -31,3 +31,35 @@
             - Enables Spring-based stereotype annotations
     - In our main method
         - `SpringApplication.run(Driver.class, args);`
+
+## Spring Data JPA
+- Spring Data is a Spring Boot Project which further abstracts away our persistence layer (even past Hibernate and other ORMs)
+- Builds on top of Hibernate
+- Provides repository support for the Java Persistence API (JPA)
+- Eases development of applications that need access to JPA data sources
+
+### Important interfaces
+- CrudRepository
+    - PagingAndSortingRepository
+        - JpaRepository
+- These interfaces use Generics to identify between classes and their Primary Key type
+
+```java
+public interface UserDAO extends JpaRepository<User, Integer> {
+
+}
+```
+
+Spring Data will dynamically construct Repositories based on:
+- The Entity
+    - The class name
+    - The field names
+    - The methods
+    - The JPA annotations
+- The type of the Primary Key
+- Then we will use Dependency Injection to inject the implementing repository into 
+    any field that uses Autowiring for our interface.
+
+#### Spring Data Rest
+- Another project built on top of Spring Data JPA that will construct Repositories, Services, AND Controllers to provide an entire RESTful API based on entities declared with a particular annotation
+- This RESTful API even includes Paging and Sorting functionality as well as HATEOS
