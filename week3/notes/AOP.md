@@ -28,4 +28,4 @@ We won't necessarily need to discuss this in a lot of detail, but the idea is ve
 
 For example, we can inject instructions around our Controller methods to catch certain exceptions and send back custom error responses. As our global exception handlers.
 
-To go along with this, Spring has a useful annotation called `@ControllerAdvice` which supports this. Alongside this annotation, there are interfaces we can implement such as `ResponseEntityExceptionHandler` that provide methods which will already be injected at corresponding locations.
+To go along with this, Spring has a useful annotation called `@ControllerAdvice` which supports this. Alongside this annotation, there are classes we can extend such as `ResponseEntityExceptionHandler` that provide methods which will already be injected at corresponding locations.
