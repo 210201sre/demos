@@ -1,22 +1,30 @@
 package com.revature.advice;
 
+import org.jboss.logging.MDC;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.revature.errorhandling.ApiError;
+import com.revature.errorhandling.ApiValidationError;
 import com.revature.exceptions.UserNotFoundException;
 
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	
-	private ResponseEntity<Object> buildResponseEntity(String message, HttpStatus status) {
-		return ResponseEntity.status(status).body(message);
+	private static final Logger log = LoggerFactory.getLogger(RestExceptionHandler.class);
+	
+	private ResponseEntity<Object> buildResponseEntity(ApiError apiError) {
+		return ResponseEntity.status(apiError.getStatus()).body(apiError);
 	}
 
 	/*
@@ -30,7 +38,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 		
 		String error = "Malformed JSON Request";
 		
-		return buildResponseEntity(error, HttpStatus.BAD_REQUEST);
+		return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, error, ex));
 	}
 
 	/*
@@ -45,7 +53,20 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 		
 		String error = "Request failed validation";
 		
-		return buildResponseEntity(error, HttpStatus.BAD_REQUEST);
+		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, error, ex);
+		
+		for(FieldError e : ex.getFieldErrors()) {
+			apiError.addSubError(new ApiValidationError(e.getObjectName(), e.getDefaultMessage(), e.getField(),
+					e.getRejectedValue()));
+		}
+		
+//		MDC.put("", "");
+		
+		log.info("Request failed validation", ex);
+		
+		return buildResponseEntity(apiError);
+		
+//		return ResponseEntity.badRequest().body("Request failed validation");
 	}
 
 	/*
@@ -56,6 +77,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	public ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException ex) {
 		String error = "No User Found";
 		
-		return buildResponseEntity(error, HttpStatus.NOT_FOUND);
+		return buildResponseEntity(new ApiError(HttpStatus.NOT_FOUND, error, ex));
 	}
 }
