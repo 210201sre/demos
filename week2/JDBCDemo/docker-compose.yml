@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  jdbc:
+    build: .
+    ports:
+    - 7000:7000
+    volumes:
+    - ./logs/log.txt:/logs\log.txt
+    environment:
+    - DB_URL
+    - DB_USERNAME
+    - DB_PASSWORD
+    container_name: jdbc
+  snake:
+    image: ikenoxamos/snake
+    container_name: snake

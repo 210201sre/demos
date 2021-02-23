@@ -1,0 +1,37 @@
+version: "3.9"
+
+networks:
+  app:
+
+services:
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+    - 3000:3000
+    networks:
+    - app
+    container_name: grafana
+    depends_on:
+    - loki
+  
+  loki:
+    image: grafana/loki:latest
+    ports:
+    - 3100:3100
+    networks:
+    - app
+    container_name: loki
+    depends_on:
+    - fluentd
+  
+  fluentd:
+    image: grafana/fluent-plugin-loki:latest
+    ports:
+    - 24224:24224
+    container_name: fluentd
+    networks:
+    - app
+    environment:
+      LOKI_URL: http://loki:3100
+    volumes:
+    - ./fluent.conf:/fluentd/etc/fluent.conf
