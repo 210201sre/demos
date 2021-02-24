@@ -15,6 +15,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -37,6 +38,7 @@ public class User {
 	private int id;
 	
 	@Length(min = 1)
+//	@Size
 	private String firstName;
 	private String lastName;
 	

@@ -122,7 +122,7 @@ You do not return to any previous phase at any point (until the cycle is complet
     - You talk about what you did yesterday, what you plan to do today, and if you have any "blockers"
         - A particular person or group who you are waiting on
     - Generally led by the Scrum Master
-- Spring Review Meeting
+- Sprint Review Meeting
     - Happens at the end of a sprint
     - You basically showcase the features that were accomplished during the sprint
     - Decide if the product is complete or if it needs more work

@@ -22,7 +22,6 @@ public class MessageController {
 	public ResponseEntity<String> receiveMessage(@RequestBody String message) {
 		
 		MDC.put("event", "message-submit");
-		MDC.put("requestId", UUID.randomUUID().toString());
 		
 //		log.info("{}, {}, {}, {}", message, "String one", "String two", "String three");
 //		log.info("{}", message);
