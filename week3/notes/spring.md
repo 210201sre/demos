@@ -178,10 +178,11 @@ public class UserService
     // Which means won't truly invoke your setter method
     private IUserDAO userDAO;
 
-    // Spring will look to perform type-based "field-injection"
+    // Spring will look to perform type-based "Field Injection"
 ```
 
 ```java
+@Component
 public class UserService {
     private IUserDAO userDAO;
 
@@ -189,5 +190,20 @@ public class UserService {
     public void setUserDAO(IUserDAO dao) {
         this.userDAO = dao;
     }
+    // This is called "Setter Injection"
+}
+```
+
+```java
+@Component
+public class UserService {
+    private IUserDAO userDAO;
+
+    @Autowired // Spring will use this constructor
+    public UserService(IUserDAO dao) {
+        super();
+        this.userDAO = dao;
+    }
+    // This is called "Constructor Injection"
 }
 ```
