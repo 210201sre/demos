@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: demo-ingress
+  name: grafana-ingress
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/use-regex: "true"
@@ -10,7 +10,7 @@ spec:
   rules:
   - http:
       paths:
-      - path: /(.*)
+      - path: /grafana/?(.*)
         backend:
-          serviceName: demo-service
-          servicePort: 8080
+          serviceName: grafana-release
+          servicePort: 80
