@@ -25,6 +25,9 @@ This is our main entrypoint to our cluster.
 - Kube-Api-Server
     - A RESTful API Server
     - It has "resources" for all of the different Kubernetes objects that we can create and manipulate
+- Kube-dns
+    - DNS specifically for locating Kubernetes objects
+    - Allows Kubernetes objects (services) to have separate IP Addresses from the node they operate on
 
 ### Desired State
 
@@ -114,3 +117,38 @@ General Structure of a manifest:
     - All of the details for the corresponding object to be configured
     - This structure changes depending on the Kind of object in the manifest
     - Think about how the JSON structure in a RESTful API would change depending on the resource
+
+## Node Components
+These are the core components that each node will need to operate Kubernetes (to work with the control plane).
+
+- Kubelet
+    - Process that makes sure that the pods are running, keeps track of the state, and reports back to the control plane
+- Kube-proxy
+    - Process that manages networking for the node as well as redirection of requests to the appropriate pod
+- Container Runtime
+    - Software dependency (library) in ordeer to create containers
+    - We could use docker
+        - Kubernetes used to use docker, but does not anymore
+    - Instead, Kubernetes uses a different runtime that is based on their Container Runtime Interface (CRI)
+        - The implementation is different from docker, but the result is the same
+
+## Types of Services
+- ClusterIP
+    - Will make a service for a set of pods and give them one static ip address, but this address will only be accessible inside the cluster
+    - This won't be a _real_ IP address, it is one that only exists through kube-dns
+    - There is no external IP Address
+    - Can think of it as a private service, so to speak, only visible inside the cluster
+- NodePort
+    - Will do the same above, but will redirect traffic from one port on the node itself to the clusterIP
+    - Accessible from the outside world
+    - URL: `node-ip:node-port`
+        - If your nodes are EC2s, then this could something like:
+        - `ec2-52-90-106-95.compute-1.amazonaws.com:31225`
+- LoadBalancer
+    - Generally uses cloud providers (AWS, GCP, Azure) technology to build a load balancer
+    - A physical load balancer
+    - Generally supported by Kubernetes Clusters created through these cloud providers
+    - Creates a separate static IP Address for the load balancer, and that traffic will redirect to the clusterIP
+    - Load Balancers are very expensive
+        - $15 a month for a bare minimum load balancer
+        - Even if you barely use it
