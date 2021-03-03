@@ -12,5 +12,5 @@ spec:
       paths:
       - path: /grafana/?(.*)
         backend:
-          serviceName: grafana-release
+          serviceName: grafana
           servicePort: 80
