@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: loki
+  namespace: matthew-oberlies
+spec:
+  type: ExternalName
+  externalName: loki.default.svc.cluster.local
+  # <service-name>.<namespace-name>.svc.cluster.local
+  # This will redirect traffic to another service in a different namespace
+  # This is important, because by default, pods can only see/communicate with services
+  # within the same namespace
+  ports:
+  - port: 3100
+    targetPort: 3100
+    protocol: TCP
