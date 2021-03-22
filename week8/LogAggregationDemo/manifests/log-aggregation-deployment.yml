@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: log-aggregation
+  namespace: default
+  labels:
+    app: log-aggregation
+spec:
+  selector:
+    matchLabels:
+      app: log-aggregation
+  replicas: 1
+  template:
+    # Describes the Pods that will be produced by this Deployment
+    # This is a nested manifest for a Pod
+    # Nested manifests do not need to include a kind or an apiVersion
+    # But they do include metadata and spec
+    metadata:
+      labels:
+        app: log-aggregation
+    spec:
+      containers:
+      - name: project1
+        image: ikenoxamos/pinpoint-demo:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DB_URL
+          valueFrom:
+            secretKeyRef:
+              name: matt-db-credentials
+              key: url
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: matt-db-credentials
+              key: username
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: matt-db-credentials
+              key: password
+        imagePullPolicy: IfNotPresent # Optional, since this is already the default value
