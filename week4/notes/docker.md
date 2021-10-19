@@ -63,7 +63,7 @@ The `-d` command runs the container in `detached` mode. Which is similar to runn
 
 The `--name` command flag gives a specific name to a container. Note that there can only be 1 container with a given name at a time. And since containers can still exist in a "stopped" or "paused" state, this might require you to manually remove a stopped container before you can re-create it.
 
-The `--rm` command flag avoids the above issue. It will completely remove the container after it exists. It will not persist in a "stopped" state.
+The `--rm` command flag avoids the above issue. It will completely remove the container after it exits. It will not persist in a "stopped" state.
 
 The `-p` flag binds certain ports to the container. Containers with exposed ports are still in an isolated system. The only way they can be accessed, is if you bind a port on the host system to the container. This will forward network traffic from the host system to the container at the specified ports. Most commonly, the same port will be used on both systems, but not always.
 
