@@ -28,30 +28,30 @@ public class Driver {
 		names.add("Klaus");
 		
 		int occurencesOfA = names.stream()
-								.map( (name) -> name.toLowerCase())
-								.filter( (name) -> name.contains("a"))
-								.mapToInt( (name) -> name.split("a").length - 1)
-								.sum();
+					.map( (name) -> name.toLowerCase())
+					.filter( (name) -> name.contains("a"))
+					.mapToInt( (name) -> name.split("a").length - 1)
+					.sum();
 		
 		System.out.println(occurencesOfA);
 		
 		List<String> filteredNames = names.stream()
-										.map( (name) -> name.toLowerCase())
-										.filter( (name) -> name.contains("k") || name.contains("l"))
-										.filter( (name) -> (name.length() >= 6))
-										.collect(Collectors.toList());
+					.map( (name) -> name.toLowerCase())
+					.filter( (name) -> name.contains("k") || name.contains("l"))
+					.filter( (name) -> (name.length() >= 6))
+					.collect(Collectors.toList());
 		
 		System.out.println(filteredNames);
 		
 		int averageLength = filteredNames.stream()
-										.collect(Collectors.averagingInt( (name) -> name.length()))
-										.intValue();
+					.collect(Collectors.averagingInt( (name) -> name.length()))
+					.intValue();
 		
 		System.out.println(averageLength);
 		
 		IntSummaryStatistics stats = filteredNames.stream()
-			.mapToInt( (name) -> name.length())
-			.summaryStatistics();
+					.mapToInt( (name) -> name.length())
+					.summaryStatistics();
 		
 		System.out.println(stats.getAverage());
 	}
